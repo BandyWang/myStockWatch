@@ -1,0 +1,185 @@
+package com.example.mystockwatch;
+
+import android.content.Intent;
+import android.os.Bundle;
+
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.text.method.TextKeyListener;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
+import android.widget.AutoCompleteTextView;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity {
+
+    private TextView mTextMessage;
+    final static String EXTRA_TEXT = "com.example.mystockwatch.EXTRA_TEXT";
+    private static final int TRIGGER_AUTO_COMPLETE = 100;
+    private static final long AUTO_COMPLETE_DELAY = 300;
+    private Handler handler;
+    private AutoSuggestAdapter autoSuggestAdapter;
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    mTextMessage.setText(R.string.title_home);
+                    return true;
+                case R.id.navigation_dashboard:
+                    mTextMessage.setText(R.string.title_dashboard);
+                    return true;
+                case R.id.navigation_notifications:
+                    mTextMessage.setText(R.string.title_notifications);
+                    return true;
+            }
+            return false;
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mTextMessage = (TextView) findViewById(R.id.message);
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+       /* AutoCompleteTextView searchBar = findViewById(R.id.searchBar);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_list_item_1,symbols);
+        searchBar.setAdapter(adapter); */
+        final AppCompatAutoCompleteTextView autoCompleteTextView =
+                findViewById(R.id.searchBar);
+        final TextView selectedText = findViewById(R.id.selected_item);
+
+        //Setting up the adapter for AutoSuggest
+        autoSuggestAdapter = new AutoSuggestAdapter(this,
+                android.R.layout.simple_dropdown_item_1line);
+        autoCompleteTextView.setThreshold(2);
+        autoCompleteTextView.setAdapter(autoSuggestAdapter);
+        autoCompleteTextView.setOnItemClickListener(
+
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+
+                        selectedText.setText(autoSuggestAdapter.getObject(position));
+                        String s = autoSuggestAdapter.getObject(position);
+                        if (autoCompleteTextView.length() > 0) {
+                            TextKeyListener.clear(autoCompleteTextView.getText());
+                        }
+                        openStockInfo(s);
+                    }
+                });
+
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int
+                    count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                handler.removeMessages(TRIGGER_AUTO_COMPLETE);
+                handler.sendEmptyMessageDelayed(TRIGGER_AUTO_COMPLETE,
+                        AUTO_COMPLETE_DELAY);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                if (msg.what == TRIGGER_AUTO_COMPLETE) {
+
+                    if (!TextUtils.isEmpty(autoCompleteTextView.getText())) {
+                        makeApiCall(autoCompleteTextView.getText().toString());
+                    }
+                }
+                return false;
+            }
+        });
+
+
+
+
+    }
+
+
+    private void makeApiCall(String text) {
+
+        ApiCall.make(this, text, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                //parsing logic, please change it as per your requirement
+
+                List<String> stringList = new ArrayList<>();
+                try {
+                    JSONObject responseObject = new JSONObject(response);
+                    Log.d("apple4","calling");
+                    JSONArray array = responseObject.getJSONArray("bestMatches");
+                    for (int i = 0; i < array.length(); i++) {
+                        JSONObject row = array.getJSONObject(i);
+                        String region = row.getString("4. region");
+                        String currency = row.getString("8. currency");
+                        if(region.equals("United States") && currency.equals("USD")){
+                            stringList.add(row.getString("1. symbol"));
+                            Log.d("apple3",row.getString("1. symbol"));
+                        }
+
+                    }
+                } catch (Exception e) {
+                    Log.d("appleError","error");
+                    e.printStackTrace();
+                }
+                //IMPORTANT: set data here and notify
+                autoSuggestAdapter.setData(stringList);
+                autoSuggestAdapter.notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+    }
+
+    public void openStockInfo(String stock){
+        Intent intent = new Intent(this,StocksScreen.class);
+        intent.putExtra(EXTRA_TEXT,stock);
+        startActivity(intent);
+    }
+
+}
