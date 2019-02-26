@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         //Setting up the adapter for AutoSuggest
         autoSuggestAdapter = new AutoSuggestAdapter(this,
                 android.R.layout.simple_dropdown_item_1line);
-        autoCompleteTextView.setThreshold(2);
+        autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(autoSuggestAdapter);
         autoCompleteTextView.setOnItemClickListener(
 
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
                         String currency = row.getString("8. currency");
                         if(region.equals("United States") && currency.equals("USD")){
                             stringList.add(row.getString("1. symbol"));
-                            Log.d("apple3",row.getString("1. symbol"));
+
                         }
 
                     }
