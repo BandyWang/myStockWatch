@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         //Setting up the adapter for AutoSuggest
         autoSuggestAdapter = new AutoSuggestAdapter(this,
                 android.R.layout.simple_dropdown_item_1line);
+        final TextView nameTextView = (TextView) findViewById(R.id.name);
+        final TextView symbolTextView = findViewById(R.id.symbol);
         autoCompleteTextView.setThreshold(1);
         autoCompleteTextView.setAdapter(autoSuggestAdapter);
         autoCompleteTextView.setOnItemClickListener(
@@ -89,8 +91,9 @@ public class MainActivity extends AppCompatActivity {
                                             int position, long id) {
 
 
-                        selectedText.setText(autoSuggestAdapter.getObject(position));
-                        String s = autoSuggestAdapter.getObject(position);
+                        Log.d("apple","never");
+                        selectedText.setText(autoSuggestAdapter.getObject(position).getSymbol() + " | " + autoSuggestAdapter.getObject(position).getName());
+                        StockObj s = autoSuggestAdapter.getObject(position);
                         if (autoCompleteTextView.length() > 0) {
                             TextKeyListener.clear(autoCompleteTextView.getText());
                         }
@@ -144,29 +147,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 //parsing logic, please change it as per your requirement
-
-                List<String> stringList = new ArrayList<>();
+                Log.d("apple4","calasdling");
+                List<StockObj> stringList = new ArrayList<>();
                 try {
                     JSONObject responseObject = new JSONObject(response);
                     Log.d("apple4","calling");
                     JSONArray array = responseObject.getJSONArray("bestMatches");
                     for (int i = 0; i < array.length(); i++) {
+                        Log.d("applei","i= "+ i);
                         JSONObject row = array.getJSONObject(i);
                         String region = row.getString("4. region");
                         String currency = row.getString("8. currency");
                         if(region.equals("United States") && currency.equals("USD")){
-                            stringList.add(row.getString("1. symbol"));
-
+                            stringList.add(new StockObj(row.getString("1. symbol"), row.getString("2. name")));
+                          //  Log.d("added", row.getString("1. symbol")+ " " + row.getString("2. name"));
                         }
 
                     }
+                    Log.d("apple4","calling done+  " + stringList.size());
                 } catch (Exception e) {
-                    Log.d("appleError","error");
                     e.printStackTrace();
                 }
                 //IMPORTANT: set data here and notify
+
                 autoSuggestAdapter.setData(stringList);
+                //Log.d("apple4","calasdling123");
                 autoSuggestAdapter.notifyDataSetChanged();
+                Log.d("apple4","calasdling1231234");
             }
         }, new Response.ErrorListener() {
             @Override
@@ -176,9 +183,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void openStockInfo(String stock){
+    public void openStockInfo(StockObj stock){
         Intent intent = new Intent(this,StocksScreen.class);
-        intent.putExtra(EXTRA_TEXT,stock);
+        intent.putExtra("EXTRA_NAME",stock.getName());
+        intent.putExtra("EXTRA_SYMBOL",stock.getSymbol());
         startActivity(intent);
     }
 

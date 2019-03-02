@@ -3,6 +3,8 @@ package com.example.mystockwatch;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -11,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AutoSuggestAdapter extends ArrayAdapter<String> implements Filterable {
-    private List<String> mlistData;
+    private List<StockObj> mlistData;
 
     public AutoSuggestAdapter(@NonNull Context context, int resource) {
         super(context, resource);
         mlistData = new ArrayList<>();
     }
 
-    public void setData(List<String> list) {
+    public void setData(List<StockObj> list) {
         mlistData.clear();
         mlistData.addAll(list);
     }
@@ -31,7 +33,7 @@ public class AutoSuggestAdapter extends ArrayAdapter<String> implements Filterab
     @Nullable
     @Override
     public String getItem(int position) {
-        return mlistData.get(position);
+        return mlistData.get(position).getSymbol() + " | " + mlistData.get(position).getName();
     }
 
     /**
@@ -40,7 +42,7 @@ public class AutoSuggestAdapter extends ArrayAdapter<String> implements Filterab
      * @param position
      * @return
      */
-    public String getObject(int position) {
+    public StockObj getObject(int position) {
         return mlistData.get(position);
     }
 
@@ -52,6 +54,7 @@ public class AutoSuggestAdapter extends ArrayAdapter<String> implements Filterab
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 if (constraint != null) {
+                    Log.d("apple","happayhappy)");
                     filterResults.values = mlistData;
                     filterResults.count = mlistData.size();
                 }
@@ -65,6 +68,7 @@ public class AutoSuggestAdapter extends ArrayAdapter<String> implements Filterab
                 } else {
                     notifyDataSetInvalidated();
                 }
+                Log.d("apple","happayhappysadsad)");
             }
         };
         return dataFilter;

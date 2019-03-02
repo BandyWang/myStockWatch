@@ -41,4 +41,5 @@ dependencies {
     implementation 'org.patriques:alphavantage4j:1.4'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
 
+
 }
