@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         queue = Volley.newRequestQueue(this);
         queue.add(getGainers());
+        queue.add(getLosers());
         setClickables();
         final AppCompatAutoCompleteTextView autoCompleteTextView =
                 findViewById(R.id.searchBar);
@@ -246,6 +247,65 @@ public class MainActivity extends AppCompatActivity {
         return request;
 
     }
+    private StringRequest getLosers(){
+        String url = "https://api.iextrading.com/1.0/stock/market/list/losers?displayPercent=true";
+        StringRequest request =  new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    List<StockObj> losers = new ArrayList<StockObj>();
+
+                    JSONArray arr = new JSONArray(response);
+
+                    for(int i = 0; i < arr.length(); i++){
+                        JSONObject obj = arr.getJSONObject(i);
+                        String name  = obj.getString("companyName");
+                        String symbol = obj.getString("symbol");
+                        double percentChange = obj.getDouble("changePercent");
+                        losers.add(new StockObj(symbol,name,percentChange));
+                    }
+
+                    Collections.sort(losers);
+                    Collections.reverse(losers);
+
+                    for(StockObj a : losers){
+                        Log.d("gainers", a.getName() + " " + a.getPercentChange());
+                    }
+
+                    for(int j = 0; j < losers.size(); j ++){
+                        int i = j+ 1;
+                        String id = "l" + i +"n";
+                        int resID = getResources().getIdentifier(id, "id", getPackageName());
+                        Log.d("gainers", resID + " id");
+                        TextView name = (TextView) findViewById(resID);
+                        id = "l" + i +"s";
+                        resID = getResources().getIdentifier(id, "id", getPackageName());
+                        TextView symbol = (TextView) findViewById(resID);
+                        id = "l" + i +"pc";
+                        resID = getResources().getIdentifier(id, "id", getPackageName());
+                        TextView pc = (TextView) findViewById(resID);
+
+                        name.setText(losers.get(j).getName());
+                        symbol.setText(losers.get(j).getSymbol());
+                        double roundOff = (double) Math.round(losers.get(j).getPercentChange() * 100) / 100;
+                        pc.setText("-"+roundOff+"%");
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        return request;
+
+    }
     private void setClickables(){
         for(int i = 1 ; i <= 10 ; i++){
             int resID = getResources().getIdentifier("g"+i, "id", getPackageName());
@@ -253,6 +313,21 @@ public class MainActivity extends AppCompatActivity {
             resID = getResources().getIdentifier("g"+i+"n", "id", getPackageName());
             TextView name = (TextView)findViewById(resID);
             resID = getResources().getIdentifier("g"+i+"s", "id", getPackageName());
+            TextView symbol = (TextView)findViewById(resID);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openStockInfo(new StockObj(symbol.getText().toString(),name.getText().toString()));
+                }
+            });
+
+        }
+        for(int i = 1 ; i <= 10 ; i++){
+            int resID = getResources().getIdentifier("l"+i, "id", getPackageName());
+            LinearLayout button = (LinearLayout)findViewById(resID);
+            resID = getResources().getIdentifier("l"+i+"n", "id", getPackageName());
+            TextView name = (TextView)findViewById(resID);
+            resID = getResources().getIdentifier("l"+i+"s", "id", getPackageName());
             TextView symbol = (TextView)findViewById(resID);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
