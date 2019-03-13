@@ -18,16 +18,23 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.AutoCompleteTextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private static final long AUTO_COMPLETE_DELAY = 300;
     private Handler handler;
     private AutoSuggestAdapter autoSuggestAdapter;
+    private RequestQueue queue;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -68,13 +76,12 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-       /* AutoCompleteTextView searchBar = findViewById(R.id.searchBar);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1,symbols);
-        searchBar.setAdapter(adapter); */
+        queue = Volley.newRequestQueue(this);
+        queue.add(getGainers());
+        setClickables();
         final AppCompatAutoCompleteTextView autoCompleteTextView =
                 findViewById(R.id.searchBar);
-        final TextView selectedText = findViewById(R.id.selected_item);
+        //final TextView selectedText = findViewById(R.id.selected_item);
 
         //Setting up the adapter for AutoSuggest
         autoSuggestAdapter = new AutoSuggestAdapter(this,
@@ -90,9 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view,
                                             int position, long id) {
 
-
-                        Log.d("apple","never");
-                        selectedText.setText(autoSuggestAdapter.getObject(position).getSymbol() + " | " + autoSuggestAdapter.getObject(position).getName());
+                    //    selectedText.setText(autoSuggestAdapter.getObject(position).getSymbol() + " | " + autoSuggestAdapter.getObject(position).getName());
                         StockObj s = autoSuggestAdapter.getObject(position);
                         if (autoCompleteTextView.length() > 0) {
                             TextKeyListener.clear(autoCompleteTextView.getText());
@@ -115,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
                 handler.sendEmptyMessageDelayed(TRIGGER_AUTO_COMPLETE,
                         AUTO_COMPLETE_DELAY);
             }
-
             @Override
             public void afterTextChanged(Editable s) {
 
@@ -134,12 +138,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
-
-
     }
-
 
     private void makeApiCall(String text) {
 
@@ -183,11 +182,87 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void openStockInfo(StockObj stock){
+    private void openStockInfo(StockObj stock){
         Intent intent = new Intent(this,StocksScreen.class);
         intent.putExtra("EXTRA_NAME",stock.getName());
         intent.putExtra("EXTRA_SYMBOL",stock.getSymbol());
         startActivity(intent);
+    }
+
+    private StringRequest getGainers(){
+        String url = "https://api.iextrading.com/1.0/stock/market/list/gainers?displayPercent=true";
+        StringRequest request =  new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    List<StockObj> gainers = new ArrayList<StockObj>();
+
+                    JSONArray arr = new JSONArray(response);
+
+                    for(int i = 0; i < arr.length(); i++){
+                        JSONObject obj = arr.getJSONObject(i);
+                        String name  = obj.getString("companyName");
+                        String symbol = obj.getString("symbol");
+                        double percentChange = obj.getDouble("changePercent");
+                        gainers.add(new StockObj(symbol,name,percentChange));
+                    }
+
+                    Collections.sort(gainers);
+                    for(StockObj a : gainers){
+                        Log.d("gainers", a.getName() + " " + a.getPercentChange());
+                    }
+
+                    for(int j = 0; j < gainers.size(); j ++){
+                        int i = j+ 1;
+                        String id = "g" + i +"n";
+                        int resID = getResources().getIdentifier(id, "id", getPackageName());
+                        Log.d("gainers", resID + " id");
+                        TextView name = (TextView) findViewById(resID);
+                        id = "g" + i +"s";
+                        resID = getResources().getIdentifier(id, "id", getPackageName());
+                        TextView symbol = (TextView) findViewById(resID);
+                        id = "g" + i +"pc";
+                        resID = getResources().getIdentifier(id, "id", getPackageName());
+                        TextView pc = (TextView) findViewById(resID);
+
+                        name.setText(gainers.get(j).getName());
+                        symbol.setText(gainers.get(j).getSymbol());
+                        double roundOff = (double) Math.round(gainers.get(j).getPercentChange() * 100) / 100;
+                        pc.setText("+"+roundOff+"%");
+                    }
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        return request;
+
+    }
+    private void setClickables(){
+        for(int i = 1 ; i <= 10 ; i++){
+            int resID = getResources().getIdentifier("g"+i, "id", getPackageName());
+            LinearLayout button = (LinearLayout)findViewById(resID);
+            resID = getResources().getIdentifier("g"+i+"n", "id", getPackageName());
+            TextView name = (TextView)findViewById(resID);
+            resID = getResources().getIdentifier("g"+i+"s", "id", getPackageName());
+            TextView symbol = (TextView)findViewById(resID);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openStockInfo(new StockObj(symbol.getText().toString(),name.getText().toString()));
+                }
+            });
+
+        }
+
     }
 
 }
