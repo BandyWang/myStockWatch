@@ -1,415 +1,481 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView2"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".StocksScreen">
 
-    <android.support.constraint.ConstraintLayout
+    <TextView
+        android:id="@+id/stockSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/stockName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="stocksymbol" />
 
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/stockName"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/candleStickChart"
-        app:layout_constraintStart_toStartOf="@+id/candleStickChart"
-        tools:context=".StocksScreen">
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="stockName" />
 
-        <com.github.mikephil.charting.charts.CandleStickChart
-            android:id="@+id/candleStickChart"
-            android:layout_width="0dp"
-            android:layout_height="255dp"
-            android:layout_marginStart="31dp"
-            android:layout_marginLeft="31dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="31dp"
-            android:layout_marginRight="31dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <ScrollView
+        android:id="@+id/scrollView3"
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="116dp"
-            android:layout_height="38dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/candleStickChart"
-            app:layout_constraintVertical_bias="0.0">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stockName"
+        app:layout_constraintVertical_bias="0.72">
 
-            <Button
-                android:id="@+id/oneDay"
-                android:layout_width="25dp"
+        <android.support.constraint.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toStartOf="@+id/candleStickChart"
+            app:layout_constraintStart_toStartOf="@+id/candleStickChart"
+            tools:context=".StocksScreen">
+
+            <com.github.mikephil.charting.charts.CandleStickChart
+                android:id="@+id/candleStickChart"
+                android:layout_width="0dp"
+                android:layout_height="255dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="305dp"
+                app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="116dp"
+                android:layout_height="38dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/candleStickChart"
+                app:layout_constraintVertical_bias="0.0">
+
+                <Button
+                    android:id="@+id/oneDay"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1D"
+                    android:textSize="8sp" />
+
+                <Button
+                    android:id="@+id/oneMonth"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="1M"
+                    android:textSize="8sp" />
+
+                <Button
+                    android:id="@+id/oneYear"
+                    android:layout_width="25dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1Y"
+                    android:textSize="8sp" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/textV"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1D"
-                android:textSize="8sp" />
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="Key Stats"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/gridLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.132"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+                app:layout_constraintVertical_bias="1.0" />
 
-            <Button
-                android:id="@+id/oneMonth"
-                android:layout_width="25dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="1M"
-                android:textSize="8sp" />
+            <GridLayout
+                android:id="@+id/gridLayout"
 
-            <Button
-                android:id="@+id/oneYear"
-                android:layout_width="25dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="1Y"
-                android:textSize="8sp" />
-        </LinearLayout>
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:columnCount="7"
+                android:orientation="horizontal"
+                android:rowCount="6"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <TextView
-            android:id="@+id/stockSymbol"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/stockName"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.025"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            tools:text="stocksymbol" />
+                <TextView
+                    android:id="@+id/Zero0"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:layout_gravity="left|top"
+                    android:padding="5dp"
+                    android:text="OPEN" />
 
-        <TextView
-            android:id="@+id/stockName"
-            android:layout_width="272dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/candleStickChart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.186"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.867"
-            tools:text="stockName" />
+                <TextView
+                    android:id="@+id/Zero1"
+                    android:layout_width="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:padding="1dp"
+                    android:text=":" />
 
-        <TextView
-            android:id="@+id/textV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
-            android:text="Key Stats"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/gridLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.132"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:layout_constraintVertical_bias="1.0" />
-        <GridLayout
-            android:id="@+id/gridLayout"
+                <TextView
+                    android:id="@+id/Zero2"
+                    android:layout_row="0"
+                    android:layout_column="2"
+                    android:padding="5dp"
+                    android:text="n/a" />
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:columnCount="7"
-            android:orientation="horizontal"
-            android:rowCount="6"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+                <TextView
+                    android:id="@+id/Zero3"
+                    android:layout_width="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="3"
+                    android:padding="2dp"
+                    android:text=" " />
 
-            <TextView
-                android:id="@+id/Zero0"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_gravity="left|top"
-                android:padding="5dp"
-                android:text="OPEN" />
+                <TextView
+                    android:id="@+id/Zero4"
+                    android:layout_row="0"
+                    android:layout_column="4"
+                    android:layout_gravity="left|top"
+                    android:padding="5dp"
+                    android:text="PREV CLOSE" />
 
-            <TextView
-                android:id="@+id/Zero1"
-                android:layout_width="wrap_content"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:padding="1dp"
-                android:text=":" />
+                <TextView
+                    android:id="@+id/Zero5"
+                    android:layout_width="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="5"
+                    android:padding="1dp"
+                    android:text=":" />
 
-            <TextView
-                android:id="@+id/Zero2"
-                android:layout_row="0"
-                android:layout_column="2"
-                android:padding="5dp"
-                android:text="n/a" />
-
-            <TextView
-                android:id="@+id/Zero3"
-                android:layout_width="wrap_content"
-                android:layout_row="0"
-                android:layout_column="3"
-                android:padding="2dp"
-                android:text=" " />
-            <TextView
-                android:id="@+id/Zero4"
-                android:layout_row="0"
-                android:layout_column="4"
-                android:layout_gravity="left|top"
-                android:padding="5dp"
-                android:text="PREV CLOSE" />
-            <TextView
-                android:id="@+id/Zero5"
-                android:layout_width="wrap_content"
-                android:layout_row="0"
-                android:layout_column="5"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/Zero6"
-                android:layout_row="0"
-                android:layout_column="6"
-                android:padding="5dp"
-                android:text="n/a" />
+                <TextView
+                    android:id="@+id/Zero6"
+                    android:layout_row="0"
+                    android:layout_column="6"
+                    android:padding="5dp"
+                    android:text="n/a" />
 
 
-            <TextView
-                android:id="@+id/One0"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:padding="5dp"
-                android:text="HIGH" />
-            <TextView
-                android:id="@+id/One1"
-                android:layout_width="wrap_content"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/One2"
-                android:layout_row="1"
-                android:layout_column="2"
-                android:padding="5dp"
-                android:text="n/a" />
-            <TextView
-                android:id="@+id/One3"
-                android:layout_width="wrap_content"
-                android:layout_row="1"
-                android:layout_column="3"
-                android:padding="2dp"
-                android:text=" " />
-            <TextView
-                android:id="@+id/One4"
-                android:layout_row="1"
-                android:layout_column="4"
-                android:layout_gravity="left|top"
-                android:padding="5dp"
-                android:text="AVG VOL" />
-            <TextView
-                android:id="@+id/One5"
-                android:layout_width="wrap_content"
-                android:layout_row="1"
-                android:layout_column="5"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/One6"
-                android:layout_row="1"
-                android:layout_column="6"
-                android:padding="5dp"
-                android:text="n/a" />
+                <TextView
+                    android:id="@+id/One0"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:padding="5dp"
+                    android:text="HIGH" />
+
+                <TextView
+                    android:id="@+id/One1"
+                    android:layout_width="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/One2"
+                    android:layout_row="1"
+                    android:layout_column="2"
+                    android:padding="5dp"
+                    android:text="n/a" />
+
+                <TextView
+                    android:id="@+id/One3"
+                    android:layout_width="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="3"
+                    android:padding="2dp"
+                    android:text=" " />
+
+                <TextView
+                    android:id="@+id/One4"
+                    android:layout_row="1"
+                    android:layout_column="4"
+                    android:layout_gravity="left|top"
+                    android:padding="5dp"
+                    android:text="AVG VOL" />
+
+                <TextView
+                    android:id="@+id/One5"
+                    android:layout_width="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="5"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/One6"
+                    android:layout_row="1"
+                    android:layout_column="6"
+                    android:padding="5dp"
+                    android:text="n/a" />
 
 
-            <TextView
-                android:id="@+id/Two0"
-                android:layout_row="2"
-                android:layout_column="0"
-                android:padding="5dp"
-                android:text="LOW" />
-            <TextView
-                android:id="@+id/Two1"
-                android:layout_width="wrap_content"
-                android:layout_row="2"
-                android:layout_column="1"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/Two2"
-                android:layout_row="2"
-                android:layout_column="2"
-                android:padding="5dp"
-                android:text="n/a" />
-            <TextView
-                android:id="@+id/Two3"
-                android:layout_width="wrap_content"
-                android:layout_row="2"
-                android:layout_column="3"
-                android:padding="2dp"
-                android:text=" " />
-            <TextView
-                android:id="@+id/Two4"
-                android:layout_row="2"
-                android:layout_column="4"
-                android:layout_gravity="left|top"
-                android:padding="5dp"
-                android:text="MKT CAP" />
-            <TextView
-                android:id="@+id/Two5"
-                android:layout_width="wrap_content"
-                android:layout_row="2"
-                android:layout_column="5"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/Two6"
-                android:layout_row="2"
-                android:layout_column="6"
-                android:padding="5dp"
-                android:text="n/a" />
+                <TextView
+                    android:id="@+id/Two0"
+                    android:layout_row="2"
+                    android:layout_column="0"
+                    android:padding="5dp"
+                    android:text="LOW" />
+
+                <TextView
+                    android:id="@+id/Two1"
+                    android:layout_width="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="1"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/Two2"
+                    android:layout_row="2"
+                    android:layout_column="2"
+                    android:padding="5dp"
+                    android:text="n/a" />
+
+                <TextView
+                    android:id="@+id/Two3"
+                    android:layout_width="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="3"
+                    android:padding="2dp"
+                    android:text=" " />
+
+                <TextView
+                    android:id="@+id/Two4"
+                    android:layout_row="2"
+                    android:layout_column="4"
+                    android:layout_gravity="left|top"
+                    android:padding="5dp"
+                    android:text="MKT CAP" />
+
+                <TextView
+                    android:id="@+id/Two5"
+                    android:layout_width="wrap_content"
+                    android:layout_row="2"
+                    android:layout_column="5"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/Two6"
+                    android:layout_row="2"
+                    android:layout_column="6"
+                    android:padding="5dp"
+                    android:text="n/a" />
 
 
-            <TextView
-                android:id="@+id/Three0"
-                android:layout_row="3"
-                android:layout_column="0"
-                android:padding="5dp"
-                android:text="52Wk HIGH" />
-            <TextView
-                android:id="@+id/Three1"
-                android:layout_width="wrap_content"
-                android:layout_row="3"
-                android:layout_column="1"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/Three2"
-                android:layout_row="3"
-                android:layout_column="2"
-                android:padding="5dp"
-                android:text="n/a" />
-            <TextView
-                android:id="@+id/Three3"
-                android:layout_width="wrap_content"
-                android:layout_row="3"
-                android:layout_column="3"
-                android:padding="2dp"
-                android:text=" " />
-            <TextView
-                android:id="@+id/Three4"
-                android:layout_row="3"
-                android:layout_column="4"
-                android:layout_gravity="left|top"
-                android:padding="5dp"
-                android:text="P/E RATIO" />
-            <TextView
-                android:id="@+id/Three5"
-                android:layout_width="wrap_content"
-                android:layout_row="3"
-                android:layout_column="5"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/Three6"
-                android:layout_row="3"
-                android:layout_column="6"
-                android:padding="5dp"
-                android:text="n/a" />
+                <TextView
+                    android:id="@+id/Three0"
+                    android:layout_row="3"
+                    android:layout_column="0"
+                    android:padding="5dp"
+                    android:text="52Wk HIGH" />
+
+                <TextView
+                    android:id="@+id/Three1"
+                    android:layout_width="wrap_content"
+                    android:layout_row="3"
+                    android:layout_column="1"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/Three2"
+                    android:layout_row="3"
+                    android:layout_column="2"
+                    android:padding="5dp"
+                    android:text="n/a" />
+
+                <TextView
+                    android:id="@+id/Three3"
+                    android:layout_width="wrap_content"
+                    android:layout_row="3"
+                    android:layout_column="3"
+                    android:padding="2dp"
+                    android:text=" " />
+
+                <TextView
+                    android:id="@+id/Three4"
+                    android:layout_row="3"
+                    android:layout_column="4"
+                    android:layout_gravity="left|top"
+                    android:padding="5dp"
+                    android:text="P/E RATIO" />
+
+                <TextView
+                    android:id="@+id/Three5"
+                    android:layout_width="wrap_content"
+                    android:layout_row="3"
+                    android:layout_column="5"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/Three6"
+                    android:layout_row="3"
+                    android:layout_column="6"
+                    android:padding="5dp"
+                    android:text="n/a" />
 
 
-            <TextView
-                android:id="@+id/Four0"
-                android:layout_row="4"
-                android:layout_column="0"
-                android:padding="5dp"
-                android:text="52Wk LOW" />
-            <TextView
-                android:id="@+id/Four1"
-                android:layout_width="wrap_content"
-                android:layout_row="4"
-                android:layout_column="1"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/Four2"
-                android:layout_row="4"
-                android:layout_column="2"
-                android:padding="5dp"
-                android:text="n/a" />
-            <TextView
-                android:id="@+id/Four3"
-                android:layout_width="wrap_content"
-                android:layout_row="4"
-                android:layout_column="3"
-                android:padding="2dp"
-                android:text=" " />
-            <TextView
-                android:id="@+id/Four4"
-                android:layout_row="4"
-                android:layout_column="4"
-                android:layout_gravity="left|top"
-                android:padding="5dp"
-                android:text="P/B RATIO" />
-            <TextView
-                android:id="@+id/Four5"
-                android:layout_width="wrap_content"
-                android:layout_row="4"
-                android:layout_column="5"
-                android:padding="1dp"
-                android:text=":" />
-            <TextView
-                android:id="@+id/Four6"
-                android:layout_row="4"
-                android:layout_column="6"
-                android:padding="5dp"
-                android:text="n/a" />
+                <TextView
+                    android:id="@+id/Four0"
+                    android:layout_row="4"
+                    android:layout_column="0"
+                    android:padding="5dp"
+                    android:text="52Wk LOW" />
+
+                <TextView
+                    android:id="@+id/Four1"
+                    android:layout_width="wrap_content"
+                    android:layout_row="4"
+                    android:layout_column="1"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/Four2"
+                    android:layout_row="4"
+                    android:layout_column="2"
+                    android:padding="5dp"
+                    android:text="n/a" />
+
+                <TextView
+                    android:id="@+id/Four3"
+                    android:layout_width="wrap_content"
+                    android:layout_row="4"
+                    android:layout_column="3"
+                    android:padding="2dp"
+                    android:text=" " />
+
+                <TextView
+                    android:id="@+id/Four4"
+                    android:layout_row="4"
+                    android:layout_column="4"
+                    android:layout_gravity="left|top"
+                    android:padding="5dp"
+                    android:text="P/B RATIO" />
+
+                <TextView
+                    android:id="@+id/Four5"
+                    android:layout_width="wrap_content"
+                    android:layout_row="4"
+                    android:layout_column="5"
+                    android:padding="1dp"
+                    android:text=":" />
+
+                <TextView
+                    android:id="@+id/Four6"
+                    android:layout_row="4"
+                    android:layout_column="6"
+                    android:padding="5dp"
+                    android:text="n/a" />
 
 
-        </GridLayout>
+            </GridLayout>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="93dp"
-            android:layout_height="19dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Recent News"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.13"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="93dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="aaaaaaaaaaaaaaabasdasdasdasdasdadasdasd"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.13"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
 
 
-    </android.support.constraint.ConstraintLayout>
-</ScrollView>
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="60dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="add"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.77"
+        app:layout_constraintStart_toEndOf="@+id/stockName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+</android.support.constraint.ConstraintLayout>

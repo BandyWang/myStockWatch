@@ -69,6 +69,9 @@ public class StocksScreen  extends AppCompatActivity {
     private String timeframe;
     private RequestQueue queue;
 
+    //SQLite variables
+    private DatabaseHelper db;
+
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -97,6 +100,15 @@ public class StocksScreen  extends AppCompatActivity {
         queue.add(JsonParse());
         queue.add(getKeyFacts());
         queue.add(getKeyFacts2());
+
+        db = new DatabaseHelper(this);
+        boolean isInDB = db.exists(stockSymbol);
+        if(!isInDB){
+            Log.d("SQL","Not in DB!");
+        }else{
+            Log.d("SQL","Is in DB!");
+        }
+        linkAddDbutton(isInDB);
 
 
 
@@ -318,9 +330,6 @@ public class StocksScreen  extends AppCompatActivity {
                 queue.add(JsonParse());
             }
         });
-
-
-
     }
     private StringRequest getKeyFacts(){
         String url = "https://api.iextrading.com/1.0/stock/"+stockSymbol+"/quote";
@@ -396,10 +405,6 @@ public class StocksScreen  extends AppCompatActivity {
         return request;
 
     }
-
-
-
-
     private static final NavigableMap<Long, String> suffixes = new TreeMap<>();
     static {
         suffixes.put(1_000L, "k");
@@ -409,8 +414,7 @@ public class StocksScreen  extends AppCompatActivity {
         suffixes.put(1_000_000_000_000_000L, "P");
         suffixes.put(1_000_000_000_000_000_000L, "E");
     }
-
-    public static String format(long value) {
+    private static String format(long value) {
         //Long.MIN_VALUE == -Long.MIN_VALUE so we need an adjustment here
         if (value == Long.MIN_VALUE) return format(Long.MIN_VALUE + 1);
         if (value < 0) return "-" + format(-value);
@@ -423,5 +427,33 @@ public class StocksScreen  extends AppCompatActivity {
         long truncated = value / (divideBy / 10); //the number part of the output times 10
         boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
         return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
+    }
+    private void linkAddDbutton(boolean isInDB){
+        Button button = (Button)findViewById(R.id.add);
+        if(!isInDB){
+            button.setText("Add");
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    boolean boo = db.addData(stockSymbol);
+                    if(boo){
+                        Log.d("SQL","added "+ stockSymbol +" to database!");
+                    }else{
+                        Log.d("SQL","Error in add!");
+                    }
+                    linkAddDbutton(true);
+                }
+            });
+        }else{
+            button.setText("Delete");
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db.delete(stockSymbol);
+                    Log.d("SQL","Deleted from SQL: "+ stockSymbol);
+                    linkAddDbutton(false);
+                }
+            });
+        }
     }
 }

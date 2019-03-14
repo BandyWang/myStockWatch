@@ -209,15 +209,13 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     Collections.sort(gainers);
-                    for(StockObj a : gainers){
-                        Log.d("gainers", a.getName() + " " + a.getPercentChange());
-                    }
+
 
                     for(int j = 0; j < gainers.size(); j ++){
                         int i = j+ 1;
                         String id = "g" + i +"n";
                         int resID = getResources().getIdentifier(id, "id", getPackageName());
-                        Log.d("gainers", resID + " id");
+                        //Log.d("gainers", resID + " id");
                         TextView name = (TextView) findViewById(resID);
                         id = "g" + i +"s";
                         resID = getResources().getIdentifier(id, "id", getPackageName());
@@ -268,15 +266,11 @@ public class MainActivity extends AppCompatActivity {
                     Collections.sort(losers);
                     Collections.reverse(losers);
 
-                    for(StockObj a : losers){
-                        Log.d("gainers", a.getName() + " " + a.getPercentChange());
-                    }
-
                     for(int j = 0; j < losers.size(); j ++){
                         int i = j+ 1;
                         String id = "l" + i +"n";
                         int resID = getResources().getIdentifier(id, "id", getPackageName());
-                        Log.d("gainers", resID + " id");
+                        //Log.d("gainers", resID + " id");
                         TextView name = (TextView) findViewById(resID);
                         id = "l" + i +"s";
                         resID = getResources().getIdentifier(id, "id", getPackageName());
@@ -320,7 +314,6 @@ public class MainActivity extends AppCompatActivity {
                     openStockInfo(new StockObj(symbol.getText().toString(),name.getText().toString()));
                 }
             });
-
         }
         for(int i = 1 ; i <= 10 ; i++){
             int resID = getResources().getIdentifier("l"+i, "id", getPackageName());
@@ -335,9 +328,6 @@ public class MainActivity extends AppCompatActivity {
                     openStockInfo(new StockObj(symbol.getText().toString(),name.getText().toString()));
                 }
             });
-
         }
-
     }
-
 }
